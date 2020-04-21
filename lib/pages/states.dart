@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -37,10 +38,14 @@ class _StatesState extends State<States> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("State"),
+        backgroundColor: Colors.black87,
+        title: Text(
+          "State",
+          style: GoogleFonts.openSans(),
+        ),
       ),
       body: Container(
-        child: ListView.builder(
+        child: (data == null)? Center(child: CupertinoActivityIndicator()) :ListView.builder(
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
@@ -116,9 +121,7 @@ class _StatesState extends State<States> {
                   ),
                 ),
               );
-            }
-
-            ),
+            }),
       ),
     );
   }

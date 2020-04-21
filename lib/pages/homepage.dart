@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:corona/model/total.dart';
+import 'package:corona/pages/dist.dart';
+import 'package:corona/pages/header.dart';
 import 'package:corona/pages/states.dart';
 import 'package:corona/service/fetchTotal.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-void main() => runApp(HomePage());
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -35,15 +35,13 @@ class _HomePageState extends State<HomePage> {
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application.json"});
     setState(() {
-      setState(() {
-        var convert = json.decode(response.body);
-        data = convert['statewise'];
-        a = data[0];
-        gj = data[3];
-      });
-
-      return "Success";
+      var convert = json.decode(response.body);
+      data = convert['statewise'];
+      a = data[0];
+      gj = data[3];
     });
+
+    return "Success";
   }
 
   @override
@@ -51,6 +49,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: Drawer(),
       appBar: AppBar(
+        backgroundColor: Colors.black87,
         title: Text(
           'Corona Live Count',
           style: GoogleFonts.openSans(),
@@ -58,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: <Widget>[
+          Header(),
           FutureBuilder<Total>(
               future: futureTotal,
               builder: (context, snapshot) {
@@ -75,22 +75,21 @@ class _HomePageState extends State<HomePage> {
                 else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
-                return CupertinoActivityIndicator();
+                return Center(child: CupertinoActivityIndicator());
               }),
-
-          DashboardCard(
-              context,
-              "India In",
-              a['confirmed'].toString(),
-              a['recovered'].toString(),
-              a['active'].toString(),
-              a['deaths'].toString(),
-              a['deltaconfirmed'].toString(),
-              a['deltadeaths'].toString(),
-              a['deltarecovered'].toString()),
-
+          (a == null)
+              ? Center(child: CupertinoActivityIndicator())
+              : DashboardCard(
+                  context,
+                  "India In",
+                  a['confirmed'].toString(),
+                  a['recovered'].toString(),
+                  a['active'].toString(),
+                  a['deaths'].toString(),
+                  a['deltaconfirmed'].toString(),
+                  a['deltadeaths'].toString(),
+                  a['deltarecovered'].toString()),
           Divider(),
-
           Container(
             height: MediaQuery.of(context).size.height * 0.03,
             child: Center(
@@ -101,49 +100,83 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
           Divider(),
-
-          DashboardCard(
-              context,
-              gj['state'].toString(),
-              gj['confirmed'].toString(),
-              gj['recovered'].toString(),
-              gj['active'].toString(),
-              gj['deaths'].toString(),
-              gj['deltaconfirmed'].toString(),
-              gj['deltadeaths'].toString(),
-              gj['deltarecovered'].toString()),
-
-          OutlineButton(
-              borderSide: BorderSide(color: Colors.indigo),
-              onPressed: () {
+          (gj == null)
+              ? Center(child: CupertinoActivityIndicator())
+              : DashboardCard(
+                  context,
+                  gj['state'].toString(),
+                  gj['confirmed'].toString(),
+                  gj['recovered'].toString(),
+                  gj['active'].toString(),
+                  gj['deaths'].toString(),
+                  gj['deltaconfirmed'].toString(),
+                  gj['deltadeaths'].toString(),
+                  gj['deltarecovered'].toString()),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => States()));
               },
-              child: Text(
-                "Show more States",
-                style: GoogleFonts.openSans(color: Colors.indigo),
-              ))
-
-          // Container(
-          //             child: ListView.builder(
-          //       itemCount: data == null ? 0 : data.length,
-          //       itemBuilder: (BuildContext context, int index) {
-          //         print(data);
-          //         return Container(
-          //           child: Center(
-          //             child: Column(
-          //               children: <Widget>[
-          //                 Card(
-          //                   child: Text(data[index]['total']),
-          //                 )
-          //               ],
-          //             ),
-          //           ),
-          //         );
-          //       }),
-          // )
+              child: Card(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "See All States",
+                        style: GoogleFonts.openSans(
+                            fontWeight: FontWeight.bold, fontSize: 20.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: MediaQuery.of(context).size.height / 8,
+                            child: Image.network(
+                                "https://i.ya-webdesign.com/images/cartoon-home-png-5.png",
+                                fit: BoxFit.cover)),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Dist()));
+              },
+              child: Card(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "Gujarat Districts",
+                        style: GoogleFonts.openSans(
+                            fontWeight: FontWeight.bold, fontSize: 20.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: MediaQuery.of(context).size.height / 8,
+                            child: Image.network(
+                                "https://png.pngtree.com/png-vector/20191119/ourmid/pngtree-house-vector-illustration-isolated-on-white-background-house-cartoon-house-clip-png-image_1992829.jpg",
+                                fit: BoxFit.cover)),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -153,7 +186,6 @@ class _HomePageState extends State<HomePage> {
 Widget DashboardCard(BuildContext context, String title, text1, text2, text3,
     text4, text5, text6, text7) {
   return Container(
-    height: MediaQuery.of(context).size.height / 7.0,
     child: Card(
       child: Column(
         children: <Widget>[
@@ -164,7 +196,7 @@ Widget DashboardCard(BuildContext context, String title, text1, text2, text3,
                     fontWeight: FontWeight.bold, fontSize: 16.0)),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
