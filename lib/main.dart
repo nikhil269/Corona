@@ -1,5 +1,8 @@
+import 'package:corona/pages/contact.dart';
 import 'package:corona/pages/homepage.dart';
+import 'package:corona/pages/hospital.dart';
 import 'package:corona/pages/recentNews.dart';
+import 'package:corona/pages/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 
@@ -35,13 +38,22 @@ class _MainState extends State<Main> {
       theme: ThemeData(brightness: Brightness.light),
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-          backgroundColor: Colors.red,
+          hoverColor: Colors.yellow,
+          hoverElevation: 15.0,
+          tooltip: "Connected",
+          onPressed: () {
+       //   Navigator.of(context).pushNamed('/contact');
+          },
+          child: Icon(
+            Icons.network_wifi,
+            size: 30.0,
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.green[400],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: BubbleBottomBar(
-       //   backgroundColor: Colors.white12,
+          //   backgroundColor: Colors.white12,
           opacity: .2,
           currentIndex: currentIndex,
           onTap: changePage,
@@ -111,6 +123,10 @@ _getPage(int page) {
       return HomePage();
     case 1:
       return News();
+    case 2:
+      return Hospital();
+    case 3:
+      return Notifications();
     default:
       return Column(
         mainAxisSize: MainAxisSize.min,

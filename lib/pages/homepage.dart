@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:corona/model/total.dart';
+import 'package:corona/pages/contact.dart';
 import 'package:corona/pages/dist.dart';
 import 'package:corona/pages/header.dart';
 import 'package:corona/pages/states.dart';
@@ -20,7 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future<Total> futureTotal;
   List data;
-  var a;
+  var a, lu;
   var gj;
   final String url = 'https://api.covid19india.org/data.json';
 
@@ -35,10 +36,15 @@ class _HomePageState extends State<HomePage> {
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application.json"});
     setState(() {
-      var convert = json.decode(response.body);
-      data = convert['statewise'];
-      a = data[0];
-      gj = data[3];
+      try {
+        var convert = json.decode(response.body);
+        data = convert['statewise'];
+        a = data[0];
+        gj = data[3];
+        lu = a['lastupdatedtime'];
+      } catch (e) {
+        print(e);
+      }
     });
 
     return "Success";
@@ -58,6 +64,49 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: <Widget>[
           Header(),
+          (lu == null)
+              ? Center(child: CupertinoActivityIndicator())
+              : Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Contact()));
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.47,
+                          child: Card(
+                            color: Colors.blue[200],
+                            child: Center(
+                                child: Text(
+                              "Contact",
+                              style: GoogleFonts.openSans(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            )),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.47,
+                        child: Card(
+                          color: Colors.red[200],
+                          child: Center(
+                              child: Text(
+                            "Last Update :\n" + lu,
+                            style: GoogleFonts.openSans(
+                                fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
           FutureBuilder<Total>(
               future: futureTotal,
               builder: (context, snapshot) {
@@ -71,6 +120,7 @@ class _HomePageState extends State<HomePage> {
                       snapshot.data.deaths.toString(),
                       snapshot.data.todayCases.toString(),
                       snapshot.data.todayDeaths.toString(),
+                      "",
                       "");
                 else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
@@ -79,16 +129,23 @@ class _HomePageState extends State<HomePage> {
               }),
           (a == null)
               ? Center(child: CupertinoActivityIndicator())
-              : DashboardCard(
-                  context,
-                  "India In",
-                  a['confirmed'].toString(),
-                  a['recovered'].toString(),
-                  a['active'].toString(),
-                  a['deaths'].toString(),
-                  a['deltaconfirmed'].toString(),
-                  a['deltadeaths'].toString(),
-                  a['deltarecovered'].toString()),
+              : InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => States()));
+                  },
+                  child: DashboardCard(
+                      context,
+                      "India In",
+                      a['confirmed'].toString(),
+                      a['recovered'].toString(),
+                      a['active'].toString(),
+                      a['deaths'].toString(),
+                      a['deltaconfirmed'].toString(),
+                      a['deltadeaths'].toString(),
+                      a['deltarecovered'].toString(),
+                      a['lastupdatedtime'].toString()),
+                ),
           Divider(),
           Container(
             height: MediaQuery.of(context).size.height * 0.03,
@@ -103,48 +160,23 @@ class _HomePageState extends State<HomePage> {
           Divider(),
           (gj == null)
               ? Center(child: CupertinoActivityIndicator())
-              : DashboardCard(
-                  context,
-                  gj['state'].toString(),
-                  gj['confirmed'].toString(),
-                  gj['recovered'].toString(),
-                  gj['active'].toString(),
-                  gj['deaths'].toString(),
-                  gj['deltaconfirmed'].toString(),
-                  gj['deltadeaths'].toString(),
-                  gj['deltarecovered'].toString()),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => States()));
-              },
-              child: Card(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        "See All States",
-                        style: GoogleFonts.openSans(
-                            fontWeight: FontWeight.bold, fontSize: 20.0),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            height: MediaQuery.of(context).size.height / 8,
-                            child: Image.network(
-                                "https://i.ya-webdesign.com/images/cartoon-home-png-5.png",
-                                fit: BoxFit.cover)),
-                      )
-                    ],
-                  ),
+              : InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Dist()));
+                  },
+                  child: DashboardCard(
+                      context,
+                      gj['state'].toString(),
+                      gj['confirmed'].toString(),
+                      gj['recovered'].toString(),
+                      gj['active'].toString(),
+                      gj['deaths'].toString(),
+                      gj['deltaconfirmed'].toString(),
+                      gj['deltadeaths'].toString(),
+                      gj['deltarecovered'].toString(),
+                      gj['lastupdatedtime'].toString()),
                 ),
-              ),
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
@@ -168,7 +200,39 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                             height: MediaQuery.of(context).size.height / 8,
                             child: Image.network(
-                                "https://png.pngtree.com/png-vector/20191119/ourmid/pngtree-house-vector-illustration-isolated-on-white-background-house-cartoon-house-clip-png-image_1992829.jpg",
+                                "https://pngimage.net/wp-content/uploads/2018/06/gujarat-map-png-1.png",
+                                fit: BoxFit.cover)),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => States()));
+              },
+              child: Card(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "All States",
+                        style: GoogleFonts.openSans(
+                            fontWeight: FontWeight.bold, fontSize: 20.0),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: MediaQuery.of(context).size.height / 8,
+                            child: Image.network(
+                                "https://i.ya-webdesign.com/images/cartoon-home-png-5.png",
                                 fit: BoxFit.cover)),
                       )
                     ],
@@ -184,14 +248,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget DashboardCard(BuildContext context, String title, text1, text2, text3,
-    text4, text5, text6, text7) {
+    text4, text5, text6, text7, text8) {
   return Container(
     child: Card(
       child: Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 7.0),
-            child: Text(title,
+            child: Text(title + " " + "(" + text8 + ")",
                 style: GoogleFonts.openSans(
                     fontWeight: FontWeight.bold, fontSize: 16.0)),
           ),
@@ -216,7 +280,7 @@ Widget DashboardCard(BuildContext context, String title, text1, text2, text3,
                 Text(
                   "Deaths \n" + text4 + "\n [+" + text6 + "]",
                   style: GoogleFonts.openSans(color: Colors.orange),
-                )
+                ),
               ],
             ),
           ),

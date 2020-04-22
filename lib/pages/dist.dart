@@ -251,11 +251,7 @@ class _DistState extends State<Dist> {
                       distict['Porbandar']['delta']['deceased'].toString(),
                       distict['Porbandar']['recovered'].toString(),
                       distict['Porbandar']['delta']['recovered'].toString()),
-
-
-
-
-                       ListCard(
+                  ListCard(
                       "Rajkot",
                       distict['Rajkot']['active'].toString(),
                       distict['Rajkot']['confirmed'].toString(),
@@ -264,7 +260,7 @@ class _DistState extends State<Dist> {
                       distict['Rajkot']['delta']['deceased'].toString(),
                       distict['Rajkot']['recovered'].toString(),
                       distict['Rajkot']['delta']['recovered'].toString()),
-                       ListCard(
+                  ListCard(
                       "Sabar Kantha",
                       distict['Sabar Kantha']['active'].toString(),
                       distict['Sabar Kantha']['confirmed'].toString(),
@@ -273,7 +269,7 @@ class _DistState extends State<Dist> {
                       distict['Sabar Kantha']['delta']['deceased'].toString(),
                       distict['Sabar Kantha']['recovered'].toString(),
                       distict['Sabar Kantha']['delta']['recovered'].toString()),
-                       ListCard(
+                  ListCard(
                       "Surat",
                       distict['Surat']['active'].toString(),
                       distict['Surat']['confirmed'].toString(),
@@ -282,11 +278,7 @@ class _DistState extends State<Dist> {
                       distict['Surat']['delta']['deceased'].toString(),
                       distict['Surat']['recovered'].toString(),
                       distict['Surat']['delta']['recovered'].toString()),
-
-
-
-
-                      ListCard(
+                  ListCard(
                       "Tapi",
                       distict['Tapi']['active'].toString(),
                       distict['Tapi']['confirmed'].toString(),
@@ -295,7 +287,7 @@ class _DistState extends State<Dist> {
                       distict['Tapi']['delta']['deceased'].toString(),
                       distict['Tapi']['recovered'].toString(),
                       distict['Tapi']['delta']['recovered'].toString()),
-                      ListCard(
+                  ListCard(
                       "Vadodara",
                       distict['Vadodara']['active'].toString(),
                       distict['Vadodara']['confirmed'].toString(),
@@ -304,7 +296,7 @@ class _DistState extends State<Dist> {
                       distict['Vadodara']['delta']['deceased'].toString(),
                       distict['Vadodara']['recovered'].toString(),
                       distict['Vadodara']['delta']['recovered'].toString()),
-                      ListCard(
+                  ListCard(
                       "Valsad",
                       distict['Valsad']['active'].toString(),
                       distict['Valsad']['confirmed'].toString(),
@@ -314,9 +306,6 @@ class _DistState extends State<Dist> {
                       distict['Valsad']['recovered'].toString(),
                       distict['Valsad']['delta']['recovered'].toString()),
                 ],
-
-
-
               ),
       ),
     );
