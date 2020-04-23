@@ -42,7 +42,7 @@ class _MediClgState extends State<MediClg> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+      //  backgroundColor: Colors.black87,
         title: Text(
           "Medical Colleges",
           style: GoogleFonts.openSans(),

@@ -45,7 +45,7 @@ class _HospitalBedState extends State<HospitalBed> {
   Widget build(BuildContext context) {
     return Scaffold(
  appBar: AppBar(
-        backgroundColor: Colors.black87,
+      //  backgroundColor: Colors.black87,
         title: Text(
           "Hospitals & beds",
           style: GoogleFonts.openSans(),

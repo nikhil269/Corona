@@ -43,7 +43,7 @@ class _ContactState extends State<Contact> {
   Widget build(BuildContext context) {
     return Scaffold(
  appBar: AppBar(
-        backgroundColor: Colors.black87,
+       // backgroundColor: Colors.black87,
         title: Text(
             "Contact",
             style: GoogleFonts.openSans(),

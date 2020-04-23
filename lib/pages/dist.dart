@@ -41,7 +41,7 @@ class _DistState extends State<Dist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+       // backgroundColor: Colors.black87,
         title: Text(
           "Gujarat",
           style: GoogleFonts.openSans(),

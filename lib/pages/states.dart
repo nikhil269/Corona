@@ -38,7 +38,7 @@ class _StatesState extends State<States> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+     //   backgroundColor: Colors.black87,
         title: Text(
           "State",
           style: GoogleFonts.openSans(),
