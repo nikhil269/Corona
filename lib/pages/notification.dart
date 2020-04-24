@@ -16,7 +16,8 @@ class _NotificationsState extends State<Notifications> {
   var a;
 
   Future<String> getNotification() async {
-    var response = await http.get(Uri.encodeFull(url), headers: {"Accept": "application.json"});
+    var response = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application.json"});
     setState(() {
       try {
         var convert = json.decode(response.body);
@@ -40,10 +41,10 @@ class _NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      //  backgroundColor: Colors.black87,
+        //  backgroundColor: Colors.black87,
         title: Center(
           child: Text(
-            "Notification",
+            "Notification (Tap to Download)",
             style: GoogleFonts.openSans(),
           ),
         ),
@@ -58,32 +59,37 @@ class _NotificationsState extends State<Notifications> {
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: Card(
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: 5.0,
-                              ),
-                              Center(
-                                  child: Text(
-                                data[index]['title'].toString(),
-                                style: GoogleFonts.openSans(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
-                              )),
-                              Divider(),
-                              Center(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  launch(data[index]['link'].toString());
-                                },
-                                child: Text(
-                                  data[index]['link'].toString(),
-                                  style: GoogleFonts.openSans(
-                                      fontWeight: FontWeight.normal),
+                        child: GestureDetector(
+                          onTap: () {
+                            launch(data[index]['link'].toString());
+                          },
+                          child: Card(
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 5.0,
                                 ),
-                              )),
-                            ],
+                                Center(
+                                    child: Text(
+                                  data[index]['title'].toString(),
+                                  style: GoogleFonts.openSans(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue),
+                                )),
+                                // Divider(),
+                                // Center(
+                                //     child: GestureDetector(
+                                //   onTap: () {
+                                //     launch(data[index]['link'].toString());
+                                //   },
+                                //   child: Text(
+                                //     data[index]['link'].toString(),
+                                //     style: GoogleFonts.openSans(
+                                //         fontWeight: FontWeight.normal,color: Colors.grey[800]),
+                                //   ),
+                                // )),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class News extends StatefulWidget {
   @override
@@ -13,6 +14,9 @@ class _NewsState extends State<News> {
   final String url = 'https://api.covid19india.org/updatelog/log.json';
   List data;
 
+  _ago(timestamp) {
+    return DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  }
 
   Future<String> getLog() async {
     var response = await http
@@ -20,7 +24,7 @@ class _NewsState extends State<News> {
     setState(() {
       try {
         var convert = json.decode(response.body);
-        data = convert;
+        data = convert.reversed.toList();
       } catch (e) {
         print(e);
       }
@@ -39,7 +43,7 @@ class _NewsState extends State<News> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      //  backgroundColor: Colors.black87,
+        //  backgroundColor: Colors.black87,
         title: Center(
           child: Text(
             "Recent News",
@@ -65,7 +69,7 @@ class _NewsState extends State<News> {
                               ),
                               Center(
                                   child: Text(
-                                data[index]['timestamp'].toString(),
+                                _ago(data[index]['timestamp']).toString(),
                                 style: GoogleFonts.openSans(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blue),
