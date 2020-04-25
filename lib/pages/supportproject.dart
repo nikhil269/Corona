@@ -75,7 +75,7 @@ class _SupportState extends State<Support> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Support Project', style: GoogleFonts.openSans()),
+        title: Text('Support Project  💁🏻', style: GoogleFonts.openSans()),
       ),
       body: Column(
         children: <Widget>[

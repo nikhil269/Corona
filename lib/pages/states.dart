@@ -40,7 +40,7 @@ class _StatesState extends State<States> {
       appBar: AppBar(
      //   backgroundColor: Colors.black87,
         title: Text(
-          "State",
+          "State ",
           style: GoogleFonts.openSans(),
         ),
       ),

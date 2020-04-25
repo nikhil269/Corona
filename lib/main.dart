@@ -28,6 +28,7 @@ import 'dart:convert';
 import 'package:share/share.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:advanced_splashscreen/advanced_splashscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,10 +49,20 @@ class _MyAppState extends State<MyApp> {
               brightness: brightness,
             ),
         themedWidgetBuilder: (context, theme) {
-          return new MaterialApp(
-            title: 'Flutter Demo',
+          return MaterialApp(
             theme: theme,
-            home: Main(),
+            home:
+            AdvancedSplashScreen(
+              appTitle: "Corona Live Tracking",
+              child: Main(),
+              seconds: 2,
+              colorList: [
+                Colors.white,
+                Colors.white,
+                Color(0xff9bcfff),
+              ],
+              appIcon: "assets/appicon.png",
+            ),
           );
         });
   }
@@ -414,8 +425,13 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountEmail: new Text("nchaudhary12155@gmail.com",
-                    style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                accountEmail: InkWell(
+                  onTap: () {
+                    launch("https://www.instagram.com/nikhil.chaudhary269");
+                  },
+                  child: new Text("nchaudhary12155@gmail.com",
+                      style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                ),
                 accountName: new Text("Corona Live Tracking",
                     style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
                 currentAccountPicture: new CircleAvatar(
@@ -600,6 +616,17 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 onTap: _showUpdate,
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                title: Center(
+                    child: Text(
+                  "Made In India ❤️",
+                  style: GoogleFonts.openSans(
+                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                )),
               ),
             ],
           ),
@@ -790,14 +817,14 @@ class _HomePageState extends State<HomePage> {
                           Divider(),
                           Center(
                             child: Text(
-                              "Number : " + dataa['number'].toString(),
+                              "Number 📱: " + dataa['number'].toString(),
                               style: GoogleFonts.openSans(
                                   fontWeight: FontWeight.normal),
                             ),
                           ),
                           Center(
                             child: Text(
-                              "Number TollFree: " +
+                              "Number TollFree ☎️: " +
                                   dataa['number-tollfree'].toString(),
                               style: GoogleFonts.openSans(
                                   fontWeight: FontWeight.normal),
@@ -805,7 +832,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Center(
                             child: Text(
-                              "Email : " + dataa['email'].toString(),
+                              "Email 📧: " + dataa['email'].toString(),
                               style: GoogleFonts.openSans(
                                   fontWeight: FontWeight.normal),
                             ),

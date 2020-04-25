@@ -46,7 +46,7 @@ class _NewsState extends State<News> {
         //  backgroundColor: Colors.black87,
         title: Center(
           child: Text(
-            "Recent News",
+            "Recent News 📰",
             style: GoogleFonts.openSans(),
           ),
         ),
