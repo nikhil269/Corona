@@ -10,9 +10,7 @@ class HospitalBed extends StatefulWidget {
 }
 
 class _HospitalBedState extends State<HospitalBed> {
-
- final String url =
-      'https://api.rootnet.in/covid19-in/hospitals/beds';
+  final String url = 'https://api.rootnet.in/covid19-in/hospitals/beds';
   var data;
   List list;
 
@@ -39,13 +37,10 @@ class _HospitalBedState extends State<HospitalBed> {
     this.getLog();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
- appBar: AppBar(
-      //  backgroundColor: Colors.black87,
+      appBar: AppBar(
         title: Text(
           "Hospitals & beds",
           style: GoogleFonts.openSans(),
@@ -72,50 +67,57 @@ class _HospitalBedState extends State<HospitalBed> {
                                 Text(
                                   "STATE : " + list[index]['state'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
                                 ),
-                                 Text(
-                                  "RURAL HOSPITALS : " + list[index]['ruralHospitals'].toString(),
+                                Text(
+                                  "RURAL HOSPITALS : " +
+                                      list[index]['ruralHospitals'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange),
                                 ),
-                                 Text(
-                                  "RURAL BEDS : " + list[index]['ruralBeds'].toString(),
+                                Text(
+                                  "RURAL BEDS : " +
+                                      list[index]['ruralBeds'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue),
                                 ),
-                                 Text(
-                                  "URBAN HOSPITALS : " + list[index]['urbanHospitals'].toString(),
+                                Text(
+                                  "URBAN HOSPITALS : " +
+                                      list[index]['urbanHospitals'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey),
                                 ),
-                                 Text(
-                                  "URBAN BEDS : " + list[index]['urbanBeds'].toString(),
+                                Text(
+                                  "URBAN BEDS : " +
+                                      list[index]['urbanBeds'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green),
                                 ),
-                                 Text(
-                                  "TOTAL HOSPITALS : " + list[index]['totalHospitals'].toString(),
+                                Text(
+                                  "TOTAL HOSPITALS : " +
+                                      list[index]['totalHospitals'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.pink),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.pink),
                                 ),
-                                 Text(
-                                  "TOTAL BEDS : " + list[index]['totalBeds'].toString(),
+                                Text(
+                                  "TOTAL BEDS : " +
+                                      list[index]['totalBeds'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.brown),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.brown),
                                 ),
-                                 Text(
-                                  "UPDATE ON : " + list[index]['asOn'].toString(),
+                                Text(
+                                  "UPDATE ON : " +
+                                      list[index]['asOn'].toString(),
                                   style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.cyan),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.cyan),
                                 ),
                               ],
                             ),

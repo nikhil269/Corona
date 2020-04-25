@@ -1,4 +1,9 @@
 import 'dart:io';
+import 'package:corona/pages/hospitalbeds.dart';
+import 'package:corona/pages/medicalclg.dart';
+import 'package:corona/pages/sources.dart';
+import 'package:corona/pages/supportproject.dart';
+import 'package:corona/pages/supportpm.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -92,7 +97,7 @@ class _MainState extends State<Main> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BubbleBottomBar(
-        backgroundColor: Colors.white38,
+        backgroundColor: Colors.white54,
         opacity: .2,
         currentIndex: currentIndex,
         onTap: changePage,
@@ -210,19 +215,64 @@ class _HomePageState extends State<HomePage> {
 
   //contact
 
+  //NO internet Dialog
+
+  void _showDialog() {
+    // dialog implementation
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("You are offline!", style: GoogleFonts.openSans()),
+        content: Text("Please check your internet Connection",
+            style: GoogleFonts.openSans()),
+        actions: <Widget>[
+          //  FlatButton(
+          //     child: Text("Refresh"),
+          //     onPressed: () {
+          //       Navigator.pop(context);
+          //     }),
+          FlatButton(
+              child: Text("Close", style: GoogleFonts.openSans()),
+              onPressed: () {
+                exit(0);
+              })
+        ],
+      ),
+    );
+  }
+
+  void _showUpdate() {
+    // dialog implementation
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("OTA update is unavailable", style: GoogleFonts.openSans()),
+        content: Text(
+            "Please check www.download.nikhil.cf for newer update , We will push this feature in our next update \nThank You",
+            style: GoogleFonts.openSans()),
+        actions: <Widget>[
+          //  FlatButton(
+          //     child: Text("Refresh"),
+          //     onPressed: () {
+          //       Navigator.pop(context);
+          //     }),
+          FlatButton(
+              child: Text("Close", style: GoogleFonts.openSans()),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+        ],
+      ),
+    );
+  }
+
+  //No internet Dialog
+
   Future<Total> futureTotal;
   List data;
   var a, lu;
   var gj;
   final String url = 'https://api.covid19india.org/data.json';
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   futureTotal = fetchTotal();
-  //   this.getIndia();
-  //   this.getContact();
-  // }
 
   Future<bool> _onWillPop() {
     return showDialog(
@@ -288,22 +338,22 @@ class _HomePageState extends State<HomePage> {
     this.getIndia();
     this.getContact();
 
-    // Timer.run(() {
-    //   try {
-    //     InternetAddress.lookup('google.com').then((result) {
-    //       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-    //         print('connected');
-    //       } else {
-    //         print("Nikhil"); // show dialog
-    //       }
-    //     }).catchError((error) {
-    //       print("Nikhil"); // show dialog
-    //     });
-    //   } on SocketException catch (_) {
-    //     print("Nikhil");
-    //     print('not connected'); // show dialog
-    //   }
-    // });
+    Timer.run(() {
+      try {
+        InternetAddress.lookup('google.com').then((result) {
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            print('connected');
+          } else {
+            _showDialog(); // show dialog
+          }
+        }).catchError((error) {
+          _showDialog(); // show dialog
+        });
+      } on SocketException catch (_) {
+        _showDialog();
+        print('not connected'); // show dialog
+      }
+    });
 
     var android = new AndroidInitializationSettings('mipmap/ic_launcher');
     var ios = new IOSInitializationSettings();
@@ -342,7 +392,7 @@ class _HomePageState extends State<HomePage> {
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android, iOS);
     await flutterLocalNotificationsPlugin.show(
-        0, "This is title", "this is demo", platform);
+        0, msg['notification']['title'], msg['notification']['body'], platform);
   }
 
   update(String token) {
@@ -364,18 +414,18 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountEmail: new Text("nchaudhary12155@gmail.com"),
-                accountName: new Text("Nikhil Chaudhary"),
+                accountEmail: new Text("nchaudhary12155@gmail.com",
+                    style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+                accountName: new Text("Corona Live Tracking",
+                    style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
                 currentAccountPicture: new CircleAvatar(
                   radius: 30.0,
                   backgroundColor: Colors.transparent,
-                  backgroundImage: new NetworkImage(
-                      "https://raw.githubusercontent.com/nikhil269/creart/master/assets/drawer.jpeg?token=AMCG7MTI7J7SXLOG65AFW5K6VLZDS"),
+                  backgroundImage: new AssetImage("assets/appicon.png"),
                 ),
                 decoration: new BoxDecoration(
                     image: new DecorationImage(
-                        image: new NetworkImage(
-                            "https://raw.githubusercontent.com/nikhil269/creart/master/assets/drawer.jpeg?token=AMCG7MTI7J7SXLOG65AFW5K6VLZDS"),
+                        image: new AssetImage("assets/drawer.jpeg"),
                         fit: BoxFit.fill)),
               ),
               ListTile(
@@ -396,8 +446,108 @@ class _HomePageState extends State<HomePage> {
               Divider(
                 height: 2.0,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
+              ListTile(
+                leading: Icon(
+                  Icons.local_hospital,
+                  size: 28,
+                  color: Colors.red,
+                ),
+                title: Text('Hospitals and Beds',
+                    style: GoogleFonts.openSans(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  // This line code will close drawer programatically....
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HospitalBed()));
+                },
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.school,
+                  size: 28,
+                  color: Colors.teal,
+                ),
+                title: Text('Medical Collages',
+                    style: GoogleFonts.openSans(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  // This line code will close drawer programatically....
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MediClg()));
+                },
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.data_usage,
+                  size: 28,
+                  color: Colors.orange,
+                ),
+                title: Text('Sources',
+                    style: GoogleFonts.openSans(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  // This line code will close drawer programatically....
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Sources()));
+                },
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.attach_money,
+                  size: 28,
+                  color: Colors.pink,
+                ),
+                title: Text('Support PMCARE',
+                    style: GoogleFonts.openSans(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  // This line code will close drawer programatically....
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SupportPM()));
+                },
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.attach_money,
+                  size: 28,
+                  color: Colors.pink,
+                ),
+                title: Text('Support Project',
+                    style: GoogleFonts.openSans(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  // This line code will close drawer programatically....
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Support()));
+                },
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.feedback,
+                  size: 28,
+                  color: Colors.deepPurple,
+                ),
+                title: Text('Feedback',
+                    style: GoogleFonts.openSans(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  launch("https://forms.gle/48uBrhyQooqGULpG9");
+                },
               ),
               Divider(
                 height: 2.0,
@@ -415,7 +565,8 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   // This line code will close drawer programatically....
                   final RenderBox box = context.findRenderObject();
-                  Share.share("www.nikhil.cf",
+                  Share.share(
+                      "I am using corona  live tracking! This app is awesome! You should try it to install: \n http://download.nikhil.cf/  \n હું કોરોના લાઇવ ટ્રેકિંગનો ઉપયોગ કરું છું! આ એપ્લિકેશન અદ્ભુત છે! તમારે તેને ઇન્સ્ટોલ કરવા માટે પ્રયાસ કરવો જોઈએ: \n http://download.nikhil.cf/",
                       sharePositionOrigin:
                           box.localToGlobal(Offset.zero) & box.size);
                 },
@@ -427,13 +578,28 @@ class _HomePageState extends State<HomePage> {
                 leading: Icon(
                   Icons.wb_sunny,
                   size: 28,
-                  color: Colors.yellow,
+                  color: Colors.yellow[700],
                 ),
                 title: Text(
                   'Dark Mode',
                   style: TextStyle(fontSize: 18),
                 ),
                 onTap: changeBrightness,
+              ),
+              Divider(
+                height: 2.0,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.system_update,
+                  size: 28,
+                  color: Colors.black,
+                ),
+                title: Text(
+                  'OTA update',
+                  style: TextStyle(fontSize: 18),
+                ),
+                onTap: _showUpdate,
               ),
             ],
           ),
@@ -446,7 +612,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.wb_sunny,
-                    color: Colors.yellow,
+                    color: Colors.yellow[700],
                     semanticLabel: "Dark Mode",
                   ),
                 )),
