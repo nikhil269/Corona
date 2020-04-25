@@ -6,7 +6,7 @@ import 'package:corona/pages/supportproject.dart';
 import 'package:corona/pages/supportpm.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:corona/pages/hospital.dart';
 import 'package:corona/pages/recentNews.dart';
 import 'package:corona/pages/notification.dart';
@@ -412,9 +412,9 @@ class _HomePageState extends State<HomePage> {
   //   databaseReference.child('fcm-token/${token}');
   //   textValue = token;
   //   setState(() {});
-  // }
+  //}
 
-  // bool isLoading = true;
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -789,7 +789,7 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => States()));
+                            MaterialPageRoute(builder: (context) => Dist()));
                       },
                       child: RoolingCard(context, "District Wise (Gujarat)"))
                 ],
